@@ -1,7 +1,7 @@
 <?php
 
 //importar conexion
-require 'includes/config/database.php';
+require 'includes/app.php';
 $db = conectarDB();
 
 //crear email y password

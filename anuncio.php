@@ -1,7 +1,5 @@
 <?php
 
-    require __DIR__ .'/includes/config/database.php';
-    $db = conectarDB();
 
     if($_SERVER['REQUEST_METHOD'] === 'GET'){
             $id = $_GET['id'];
@@ -11,7 +9,8 @@
         if(!$id){
             header('location: /bienesraices/');
         }
-
+    require 'includes/app.php';
+    $db = conectarDB();
     $query = "SELECT * FROM propiedades WHERE id = $id";
     $resultado = mysqli_query($db, $query);
 
@@ -21,7 +20,7 @@
             header('location: /bienesraices/');
         }
 
-    require 'includes/funciones.php';
+
     incluirTemplate('header');
 ?>
     <main class="contenedor seccion contenido-centrado">

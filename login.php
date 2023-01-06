@@ -1,5 +1,5 @@
 <?php
-    require 'includes/config/database.php';
+    require 'includes/app.php';
     $db = conectarDB();
 
     //autenticacion y validacion
@@ -50,7 +50,7 @@
     }
 
     
-    require 'includes/funciones.php';
+
     incluirTemplate('header');
 ?>
     <main class="contenedor seccion contenido-centrado">

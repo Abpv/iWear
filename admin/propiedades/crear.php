@@ -2,6 +2,7 @@
 require '../../includes/app.php';
 
 use App\Propiedad;
+use Intervention\Image\ImageManagerStatic as Image;
 
 estaAutenticado();
 
@@ -27,37 +28,38 @@ $vendedor_id = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //creamos nueva instancia de propiedad cuando recibamos el post
     $propiedad = new Propiedad($_POST);
-    $errores = $propiedad->validar();
 
+    /** subida de archivos*/
+    
+    //1. generar un nombre unico para la imagen
+    $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+
+    //2. formatear imagen si existe
+    if($_FILES['imagen']['tmp_name']){
+        $image = Image::make($_FILES['imagen']['tmp_name'])->fit(800, 600); //redimensionamos la img
+        $propiedad->setImagen($nombreImagen); //pasamos el nombre de la img para que sea enviada a la bd
+
+    }
+
+    //validar
+    $errores = $propiedad->validar();
 
     //revisamos que el array $errores este vacio
     if (empty($errores)) {
-            
-        $propiedad->guardar();
-
-        //asignamos files hacia una variable
-        $imagen = $_FILES['imagen'];
-
-
-        /** subida de archivos*/
-        //1. crear carpeta
-        $carpetaImagenes = '../../imagenes/';
-
-        if (!is_dir($carpetaImagenes)) {
-            mkdir($carpetaImagenes);
+        
+        
+        //3. crear carpeta para subir las imagenes 
+        if(!is_dir(CARPETA_IMAGENES)){
+            mkdir(CARPETA_IMAGENES);
         }
 
-        //generar un nombre unico
-        $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
-
-        var_dump($nombreImagen);
-
-        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+        //4. guardar img en el servidor
+        $image->save(CARPETA_IMAGENES . $nombreImagen); //guarda img en el servidor. save metodo de intervention/image 
+        $resultado = $propiedad->guardar(); //guardar devuelve true o false si el query es correcto o no
 
 
-        $resultado = mysqli_query($db, $query);
         if ($resultado) {
-            //redireccionar al usuario
+            //redireccionar al usuario si el query es correcto
             header('Location: /bienesraices/admin?resultado=1');
         }
     }

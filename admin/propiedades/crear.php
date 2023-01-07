@@ -1,11 +1,10 @@
 <?php
-require '../../includes/funciones.php';
-$auth = estaAutenticado();
+require '../../includes/app.php';
 
-if(!$auth){
-    header('Location: /bienesraices/');
-}
-require '../../includes/config/database.php';
+use App\Propiedad;
+
+estaAutenticado();
+
 $db = conectarDB();
 
 //consulta para obtener los vendedores
@@ -78,9 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    echo '<pre>';
-    var_dump($_POST);
-    echo '</pre>';
+    // echo '<pre>';
+    // var_dump($_POST);
+    // echo '</pre>';
     // exit;
 
     //revisamos que el array $errores este vacio

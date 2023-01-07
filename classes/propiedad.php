@@ -56,12 +56,18 @@ class Propiedad
         //sanitizar los datos
         $atributos = $this->sanitizarAtributos(); //llamamos a un m dentro de la misma clase con $this->metodo()
 
+        $string = join(', ', array_values($atributos));
+
         //insertar en la bd
-        $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedor_id) 
-                VALUES ('$this->titulo', '$this->precio', '$this->imagen', '$this->descripcion', '$this->habitaciones', 
-                '$this->wc', '$this->estacionamiento', '$this->creado', '$this->vendedor_id')";
+        $query = " INSERT INTO propiedades (";
+        $query .= join(', ', array_keys($atributos)); //join crea un string de un array
+        $query .= " ) VALUES (' ";
+        $query .= join("', '", array_values($atributos));
+        $query .= " ')";
+
 
         $resultado = self::$db->query($query);
+        debuguear($resultado);
         
     }
     //se encarga de iterar sobre columnasdb para indentificar y unir los atributos de la BD

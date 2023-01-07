@@ -12,7 +12,7 @@ $consulta = "SELECT * FROM vendedores";
 $resultado = mysqli_query($db, $consulta);
 
 //array con mensajes de errores
-$errores = [];
+$errores = Propiedad::getErrores();
 
 $titulo = '';
 $precio = '';
@@ -27,67 +27,18 @@ $vendedor_id = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //creamos nueva instancia de propiedad cuando recibamos el post
     $propiedad = new Propiedad($_POST);
-    
-    $propiedad->guardar();
+    $errores = $propiedad->validar();
 
-    // echo '<pre>';
-    //     var_dump($_POST);
-    // echo '</pre>';
-
-    $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
-    $precio = mysqli_real_escape_string($db, $_POST['precio']);
-    $descripcion = mysqli_real_escape_string($db, $_POST['descripcion']);
-    $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones']);
-    $wc = mysqli_real_escape_string($db, $_POST['wc']);
-    $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento']);
-    $vendedor_id = mysqli_real_escape_string($db, $_POST['vendedor_id']);
-    $creado = date('Y/m/d');
-
-    //asignamos files hacia una variable
-    $imagen = $_FILES['imagen'];
-
-
-
-    if (!$titulo) {
-        $errores[] = "Debes añadir un título";
-    }
-    if (!$precio) {
-        $errores[] = "Debes añadir un precio";
-    }
-    if (strlen($descripcion) < 50) {
-        $errores[] = "Debes añadir una descripcion de al menos 50 caracteres";
-    }
-    if (!$habitaciones) {
-        $errores[] = "Debes añadir las habitaciones";
-    }
-    if (!$wc) {
-        $errores[] = "Debes añadir un wc";
-    }
-    if (!$estacionamiento) {
-        $errores[] = "Debes añadir un estacionamiento";
-    }
-    if (!$vendedor_id || $vendedor_id === 0) {
-        $errores[] = "Debes añadir un vendedor";
-    }
-
-    if (!$imagen['name'] || $imagen['error']) {
-        $errores[] = "La imagen es obligatoria";
-    }
-    //validar por tamano (1MB max)
-    $medida = 1000 * 1000; //convertimos de bytes a kb
-
-    if ($imagen['size'] > $medida) {
-        $errores[] = "El tamaño de la imagen debe ser menor a 100Kb";
-    }
-
-
-    // echo '<pre>';
-    // var_dump($_POST);
-    // echo '</pre>';
-    // exit;
 
     //revisamos que el array $errores este vacio
     if (empty($errores)) {
+            
+        $propiedad->guardar();
+
+        //asignamos files hacia una variable
+        $imagen = $_FILES['imagen'];
+
+
         /** subida de archivos*/
         //1. crear carpeta
         $carpetaImagenes = '../../imagenes/';

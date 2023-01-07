@@ -85,6 +85,7 @@ class Propiedad
         return $atributos;
 
     }
+
     public function sanitizarAtributos(){
         $atributos = $this->getAtributos();
         $sanitizado =[];
@@ -100,6 +101,7 @@ class Propiedad
         } 
         return $sanitizado;
     }
+
     //Subida de archivos
     public function setImagen($imagen){
         //asignar atributo imagen nombre imagen
@@ -144,4 +146,38 @@ class Propiedad
        
         return self::$errores;
     }
+    //lista todas las propiedades
+    public static function getAll(){
+        $query = "SELECT * FROM propiedades";
+        $resultado = self::consultarSQL($query); 
+       
+        return $resultado;
+    }
+
+    public static function consultarSQL($query){
+        //consultar bd
+        $resultado = self::$db->query($query);
+
+        //iterar resultados
+        $array = [];
+        while($registro = $resultado->fetch_assoc() ){//nos devuelve un array asociativo
+            $array[] = self::crearObjeto($registro); //es un array que pasaremos a objeto con el metodo
+        }
+        //liberar la memoria
+        $resultado->free();
+        
+        //retornar los resultados
+        return $array;
+    }
+    //Necesitamos objetos para usar active records
+    protected static function crearObjeto($registro){
+        $objeto = new self;
+
+        foreach($registro as $key => $value){
+            if(property_exists($objeto, $key)){ //compara si el objeto creado tiene un id
+                $objeto->$key = $value; //cuando se cumpla la condicion, mapea los datos de array a objetos
+            }
+        }
+        return $objeto;
+    }   
 }

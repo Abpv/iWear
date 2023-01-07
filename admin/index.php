@@ -1,16 +1,12 @@
 <?php
-    require '../includes/funciones.php';
+    require '../includes/app.php';
     estaAutenticado();
 
-    /*CONEXION BASE DATOS*/
-    //importamos la conexion
-    require '../includes/config/database.php';
-    $db = conectarDB();
-    //escribimos query
-    $query = "SELECT * FROM propiedades";
-    //consultar bd
-    $rs = mysqli_query($db, $query);
-    
+    use App\Propiedad; //importamos la clase Propiedad
+
+
+    //usamos active records para obtener las propiedades
+    $propiedades = Propiedad::getAll();
 
     //muestra mensaje condicional
     $resultado = $_GET['resultado'] ?? null; //busca resultado y si no existe le asigna null
@@ -29,11 +25,6 @@
             //elimina la propiedad
             $query = "DELETE FROM propiedades WHERE id = $id";
             $resultado = mysqli_query($db, $query);
-           
-            
-            
-
-          
 
             if($resultado){
                 header('location: /bienesraices/admin');

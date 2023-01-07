@@ -1,10 +1,6 @@
 <?php
     require '../includes/funciones.php';
-    $auth = estaAutenticado();
-
-    if(!$auth){
-        header('Location: /bienesraices/');
-    }
+    estaAutenticado();
 
     /*CONEXION BASE DATOS*/
     //importamos la conexion

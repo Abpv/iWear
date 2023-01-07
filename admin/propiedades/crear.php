@@ -25,6 +25,10 @@ $vendedor_id = '';
 
 //ejecuta el codigo tras enviar el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //creamos nueva instancia de propiedad cuando recibamos el post
+    $propiedad = new Propiedad($_POST);
+    
+    $propiedad->guardar();
 
     // echo '<pre>';
     //     var_dump($_POST);
@@ -36,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones']);
     $wc = mysqli_real_escape_string($db, $_POST['wc']);
     $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento']);
-    $vendedor_id = mysqli_real_escape_string($db, $_POST['vendedor']);
+    $vendedor_id = mysqli_real_escape_string($db, $_POST['vendedor_id']);
     $creado = date('Y/m/d');
 
     //asignamos files hacia una variable
@@ -99,9 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
 
-        //insertar en la bd
-        $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedor_id) 
-                VALUES ('$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedor_id')";
 
         $resultado = mysqli_query($db, $query);
         if ($resultado) {
@@ -158,7 +159,7 @@ incluirTemplate('header');
         <fieldset>
             <legend>Vendedor</legend>
 
-            <select name="vendedor" id="vendedor">
+            <select name="vendedor_id" id="vendedor">
                 <option value="">--Seleccione--</option>
                 <?php while ($row = mysqli_fetch_assoc($resultado)) : ?>
                     <option <?php echo $vendedor_id === $row['id']  ? 'selected' : ''; ?> value="<?php echo $row['id']; ?>"><?php echo $row['nombre'] . " " . $row['apellido']; ?></option>

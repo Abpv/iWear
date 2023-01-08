@@ -48,13 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //4. guardar img en el servidor
         $image->save(CARPETA_IMAGENES . $nombreImagen); //guarda img en el servidor. save metodo de intervention/image 
-        $resultado = $propiedad->guardar(); //guardar devuelve true o false si el query es correcto o no
+        $propiedad->guardar(); //guardar devuelve true o false si el query es correcto o no
 
 
-        if ($resultado) {
-            //redireccionar al usuario si el query es correcto
-            header('Location: /bienesraices/admin?resultado=1');
-        }
     }
 }
 incluirTemplate('header');

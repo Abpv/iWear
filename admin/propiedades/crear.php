@@ -19,8 +19,9 @@ $errores = Propiedad::getErrores();
 
 //ejecuta el codigo tras enviar el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     //creamos nueva instancia de propiedad cuando recibamos el post
-    $propiedad = new Propiedad($_POST);
+    $propiedad = new Propiedad($_POST['propiedad']);
 
     /** subida de archivos*/
     
@@ -28,10 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
 
     //2. formatear imagen si existe
-    if($_FILES['imagen']['tmp_name']){
-        $image = Image::make($_FILES['imagen']['tmp_name'])->fit(800, 600); //redimensionamos la img
+    if($_FILES['propiedad']['tmp_name']['imagen']){
+        $image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800, 600); //redimensionamos la img
         $propiedad->setImagen($nombreImagen); //pasamos el nombre de la img para que sea enviada a la bd
-
     }
 
     //validar

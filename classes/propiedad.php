@@ -12,16 +12,16 @@ class Propiedad
     protected static $db;
 
     //iteramos sobre las propiedades para realizar la sanita
-    protected static $columnasDB = 
-            [
-            'id', 'titulo', 'precio', 'imagen', 'descripcion',
-            'habitaciones','wc', 'estacionamiento', 'creado', 'vendedor_id'
-            ]; 
-    
+    protected static $columnasDB =
+    [
+        'id', 'titulo', 'precio', 'imagen', 'descripcion',
+        'habitaciones', 'wc', 'estacionamiento', 'creado', 'vendedor_id'
+    ];
+
     //Validacion
     protected static $errores = [];
-    
-    
+
+
     public $id;
     public $titulo;
     public $precio;
@@ -55,7 +55,16 @@ class Propiedad
         $this->creado = date('Y/m/d');
         $this->vendedor_id = $args['vendedor_id'] ?? 1;
     }
+
     public function guardar()
+    {
+        if (isset($this->id)) { //si hay id actualiza
+            $this->actualizar();
+        } else { //si no hay id, crea un nuevo registro
+            $this->crear();
+        }
+    }
+    public function crear()
     {
         //sanitizar los datos
         $atributos = $this->sanitizarAtributos(); //llamamos a un m dentro de la misma clase con $this->metodo()
@@ -72,51 +81,86 @@ class Propiedad
 
         $resultado = self::$db->query($query);
         return $resultado;
+    }
+    public function actualizar()
+    {
+        //sanitizar los datos
+        $atributos = $this->sanitizarAtributos(); 
+        $valores = [];
+        foreach($atributos as $key => $value){//accedemos a las llaves y valores del array atributos ya sanitizado
+            $valores[] = "$key='$value'";
+        }
+        //insertar en la bd 
+        $query = " UPDATE propiedades SET ";
+        $query .= join(', ', $valores);
+        $query .= " WHERE id = '" . self::$db->escape_string($this->id). "' ";
+        $query .= " LIMIT 1 ;";
+
+        $resultado = self::$db->query($query);
         
+        if ($resultado) {
+            //redireccionar al usuario
+            header('Location: /bienesraices/admin?resultado=2');
+        }        
+    }
+    public function eliminar(){
+        debuguear('eliminando '. $this->id);
     }
     //se encarga de iterar sobre columnasdb para indentificar y unir los atributos de la BD
-    public function getAtributos(){
+    public function getAtributos()
+    {
         $atributos = [];
-        foreach(self::$columnasDB as $columna) {
-            if($columna === 'id') continue; //lo ignora y continua con el foreach
+        foreach (self::$columnasDB as $columna) {
+            if ($columna === 'id') continue; //lo ignora y continua con el foreach
 
             $atributos[$columna] = $this->$columna; //al ser una variable lleva el $
-        } 
+        }
         return $atributos;
-
     }
 
-    public function sanitizarAtributos(){
+    public function sanitizarAtributos()
+    {
         $atributos = $this->getAtributos();
-        $sanitizado =[];
+        $sanitizado = [];
 
-        foreach($atributos as $key => $value){ //iterar un array asociativo
+        foreach ($atributos as $key => $value) { //iterar un array asociativo
             /*
                 Viene a sustituir: $titulo = mysqli_real_escape_string($db, $_POST['titulo']); 
                 Recorremos el array con los atributos, y con cada atributo le aplicamos la sanitizacion
                 con escape_string, usando la conexion creada anteriormente.
                 Se sanitiza solo los valores, las llaves no hace falta
             */
-            $sanitizado[$key] = self::$db->escape_string($value);   
-        } 
+            $sanitizado[$key] = self::$db->escape_string($value);
+        }
         return $sanitizado;
     }
 
     //Subida de archivos
-    public function setImagen($imagen){
-        //asignar atributo imagen nombre imagen
-        if($imagen){
+    public function setImagen($imagen)
+    {
+        //elimina imagen previa
+        if (isset($this->id)) { //si hay un id
+            //busca si existe ese archivo
+            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
+            if ($existeArchivo) {
+                unlink(CARPETA_IMAGENES . $this->imagen); //unlink elimina el archivo que le digamos
+            }
+        } //tras eliminar el archivo, asigna el nuevo 
+
+        //asignar atributo imagen al objeto 
+        if ($imagen) {
             $this->imagen = $imagen;
         }
-
     }
 
     //validacion
-    public static function getErrores(){
-        return self::$errores; 
+    public static function getErrores()
+    {
+        return self::$errores;
     }
-    
-    public function validar(){
+
+    public function validar()
+    {
         if (!$this->titulo) {
             self::$errores[] = "Debes añadir un título";
         }
@@ -139,45 +183,67 @@ class Propiedad
         if (!$this->vendedor_id || $this->vendedor_id === 0) {
             self::$errores[] = "Debes elegir un vendedor";
         }
-    
+
         if (!$this->imagen) {
             self::$errores[] = "La imagen es obligatoria";
         }
-       
+
         return self::$errores;
     }
-    //lista todas las propiedades
-    public static function getAll(){
+    //lista todos los registros
+    public static function getAll()
+    {
         $query = "SELECT * FROM propiedades";
-        $resultado = self::consultarSQL($query); 
-       
+        $resultado = self::consultarSQL($query);
+
         return $resultado;
     }
+    //busca un registro por su id
+    public static function find($id)
+    {
+        $query = "SELECT * FROM propiedades WHERE id = $id";
+        $resultado = self::consultarSQL($query);
+        return array_shift($resultado); //array_shift nos devuelve el primer elemento de un array
+    }
 
-    public static function consultarSQL($query){
+    public static function consultarSQL($query)
+    {
         //consultar bd
         $resultado = self::$db->query($query);
 
         //iterar resultados
         $array = [];
-        while($registro = $resultado->fetch_assoc() ){//nos devuelve un array asociativo
+        while ($registro = $resultado->fetch_assoc()) { //nos devuelve un array asociativo
             $array[] = self::crearObjeto($registro); //es un array que pasaremos a objeto con el metodo
         }
         //liberar la memoria
         $resultado->free();
-        
+
         //retornar los resultados
         return $array;
     }
     //Necesitamos objetos para usar active records
-    protected static function crearObjeto($registro){
+    protected static function crearObjeto($registro)
+    {
         $objeto = new self;
 
-        foreach($registro as $key => $value){
-            if(property_exists($objeto, $key)){ //compara si el objeto creado tiene un id
+        foreach ($registro as $key => $value) {
+            if (property_exists($objeto, $key)) { //compara si el objeto creado tiene un id
                 $objeto->$key = $value; //cuando se cumpla la condicion, mapea los datos de array a objetos
             }
         }
         return $objeto;
-    }   
+    }
+
+    //sincroniza el objeto en memoria con los cambios realizados por el usuario
+    public function sincronizar($args = [])
+    {
+        //comparamos el obj actual en memoria con el array de lo introducido por el usuario
+        foreach ($args as $key => $value) {
+            if (property_exists($this, $key) && !is_null($value)) { //mapea las propiedades del array al objeto
+                $this->$key = $value; //escribe las que sean nuevas
+            }
+        }
+    }
+
 }

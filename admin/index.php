@@ -3,11 +3,13 @@
     estaAutenticado();
 
     use App\Propiedad; //importamos la clase Propiedad
-
+    use App\Vendedor;
 
     //usamos active records para obtener las propiedades
     $propiedades = Propiedad::getAll();
-
+    $vendedores = Vendedor::getAll();
+    
+    debuguear($propiedades);
     //muestra mensaje condicional
     $resultado = $_GET['resultado'] ?? null; //busca resultado y si no existe le asigna null
 

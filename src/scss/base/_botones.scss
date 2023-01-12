@@ -4,13 +4,13 @@
 .boton-amarillo-block{
     @include boton($amarillo, block);
 }
-.boton-verde{
-    @include boton($verde, inline-block);
+.boton-azul{
+    @include boton($azul, inline-block);
 }
-.boton-verde-block{
-    @include boton($verde, block);
+.boton-azul-block{
+    @include boton($azul, block);
 }
-.boton-rojo-block{
-    @include boton($rojo, block);
+.boton-rosa-block{
+    @include boton($rosa, block);
     width: 100%;
 }

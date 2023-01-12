@@ -4,43 +4,69 @@
 ?>
     
     <main class="contenedor seccion">
-        <h1>Más Sobre Nosotros</h1>
-        <div class="iconos-nosotros">
-            <div class="icono">
-                <img src="build/img/icono1.svg" alt="icono seguridad" loading="lazy">
-                <h3>Seguridad</h3>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo tempore officiis voluptatibus veniam adipisci consectetur!</p>
-            </div>
-            <div class="icono">
-                <img src="build/img/icono2.svg" alt="icono precio" loading="lazy">
-                <h3>Precio</h3>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo tempore officiis voluptatibus veniam adipisci consectetur!</p>
-            </div>
-            <div class="icono">
-                <img src="build/img/icono3.svg" alt="icono tiempo" loading="lazy">
-                <h3>A Tiempo</h3>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo tempore officiis voluptatibus veniam adipisci consectetur!</p>
-            </div>
-        </div>
-    </main><!--sobrenosotros-->
-
-    <section class="seccion contenedor">
-        <h2>Casas y Apartamentos en Venta</h2>
+        <h1>Nuestros Productos</h1>
+        <div class="contenedor-anuncios">
+            <div class="anuncio">
+                <picture>
+                    <source srcset="build/img/anuncio1.webp" type="image/webp">
+                    <source srcset="build/img/anuncio1.jpg" type="image/jpeg">
+                    <img loading="lazy" src="" alt="Imagen anuncio">
+                </picture>
+                <div class="contenido-anuncio">
+                    <h3>iWear v.1</h3>
+                    <p>Tus compañeras del día a día</p>
+                    <p class="precio">75€</p>
+                    <a href="anuncio.html" class="boton-rosa-block">
+                        Ver Producto
+                    </a>
+                </div><!--.contenido-anuncio-->
+            </div><!--.anuncio-->
+            <div class="anuncio">
+                <picture>
+                    <source srcset="build/img/anuncio2.webp" type="image/webp">
+                    <source srcset="build/img/anuncio2.jpg" type="image/jpeg">
+                    <img loading="lazy" src="" alt="Imagen anuncio">
+                </picture>
+                <div class="contenido-anuncio">
+                    <h3>iWear v.1</h3>
+                    <p>Dale un toque de color</p>
+                    <p class="precio">85€</p>
+                    <a href="anuncio.html" class="boton-rosa-block">
+                        Ver Producto
+                    </a>
+                </div><!--.contenido-anuncio-->
+            </div><!--.anuncio-->
+            <div class="anuncio">
+                <picture>
+                    <source srcset="build/img/anuncio3.webp" type="image/webp">
+                    <source srcset="build/img/anuncio3.jpg" type="image/jpeg">
+                    <img loading="lazy" src="" alt="Imagen anuncio">
+                </picture>
+                <div class="contenido-anuncio">
+                    <h3>iWear v.3</h3>
+                    <p>La opción más elegante</p>
+                    <p class="precio">125€</p>
+                    <a href="anuncio.html" class="boton-rosa-block">
+                        Ver Producto
+                    </a>
+                </div><!--.contenido-anuncio-->
+            </div><!--.anuncio-->
+        </div><!--.contenedor-anuncios-->
         <?php
-            $limite = 3;
-            include 'includes/templates/anuncios.php';
+            // $limite = 3;
+            // include 'includes/templates/anuncios.php';
         ?>
 
 
         <div class="alinear-derecha">
-            <a href="anuncios.html" class="boton-verde">Ver Todas</a>
+            <a href="anuncios.html" class="boton-azul">Ver Todas</a>
         </div>
-    </section><!--anuncios-->
+    </main><!--sobrenosotros-->
 
     <section class="imagen-contacto">
-        <h2>Encuentra la casa de tus sueños</h2>
-        <p>Rellena el formulario de contacto y un asesor se pondrá en contacto contigo en breve</p>
-        <a href="contacto.html" class="boton-amarillo">Contáctanos</a>
+        <h2>Encuentra tus gafas perfectas</h2>
+        <p>Rellena el formulario de contacto y pide cita, nosotros te asesoramos</p>
+        <a href="contacto.html" class="boton-azul">Contáctanos</a>
     </section><!--contacto-->
 
     <div class="contenedor seccion seccion-inferior">
@@ -57,9 +83,9 @@
                 </div>
                 <div class="texto-entrada">
                     <a href="entrada.html">
-                        <h4>Terraza en el techo de tu casa</h4>
+                        <h4>Las gafas de sol no son solo para el verano</h4>
                         <p class="informacion-meta">Escrito el: <span>20/10/2021</span> por: <span>Admin</span></p>
-                        <p>Consejos para construir una terraza en el techo de tu casa con los mejores materiales y ahorrando mucho dinero</p>
+                        <p>Todas las novedades para este otoño, con la opinión de nuestros expertos sobre las últimas tendencias</p>
                     </a>
                 </div>
             </article>
@@ -74,21 +100,21 @@
                 </div>
                 <div class="texto-entrada">
                     <a href="entrada.html">
-                        <h4>Guía para la decoración de tu hogar</h4>
+                        <h4>No todas las caras son iguales</h4>
                         <p class="informacion-meta">Escrito el: <span>20/10/2021</span> por: <span>Admin</span></p>
-                        <p>Maximiza el espacio en tu hogar con esta guía, aprende a combinar muebles y colores para darle vida a tu espaci2</p>
+                        <p>Cada persona es un mundo y para cada una de ellas existen un par de gafas que le pasaran como anillo al dedo</p>
                     </a>
                 </div>
             </article>
         </section>
 
         <section class="testimoniales">
-            <h3>Testimoniales</h3>
+            <h3>Testimonios</h3>
             <div class="testimonial">
                 <blockquote>
-                    El personal se comportó de una excelente forma, muy buena atención y la casa que me ofrecieron cumple con todas mis expectativas.
+                    Encantada con la visita a la tienda del centro, me atendieron de forma personalizada y muy amablemente
                 </blockquote>
-                <p>- Juan De la Torre</p>
+                <p>- María Sánchez</p>
             </div>
         </section>
     </div><!--blog-->

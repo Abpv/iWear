@@ -7,7 +7,7 @@
         }
 
         if(!$id){
-            header('location: /bienesraices/');
+            header('location: /iWear/');
         }
     require 'includes/app.php';
     $db = conectarDB();
@@ -17,7 +17,7 @@
     
     $propiedad = mysqli_fetch_assoc($resultado);
         if(!$resultado->num_rows){
-            header('location: /bienesraices/');
+            header('location: /iWear/');
         }
 
 

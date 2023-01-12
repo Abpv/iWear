@@ -1,12 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
 .no-webp .inicio{
-    background-image: url(../img/header.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(../img/header.webp);
+
 }
 .webp .inicio {
-    background-image: url(../img/header.webp);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(../img/header.webp);
+    max-height: 600;
 }
 .header{
     background-color: $grisOscuro;
     padding: 1rem 0 3rem 0;
+    display: flex;
+    justify-content: center;
     
     &.inicio{
         background-position: center center;
@@ -23,7 +28,19 @@
             }
         }
     }
-}
+
+}    
+.logo{
+        color: white;
+        font-size: 4rem;
+        font-weight: bolder;
+        padding: 0;
+        margin: 0;
+
+        span{
+            color: $rosa;
+        }
+    }
 .contenido-header{
     display: flex;
     flex-direction: column;
@@ -31,7 +48,8 @@
     
 
     h1{
-        text-align: left;
+        font-family: 'Prata', serif;
+        text-align: right;
         color: $blanco;
         font-weight: $bold;
         line-height: 2;

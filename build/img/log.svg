@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="932" height="652" viewBox="0 0 932 652">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        font-size: 102px;
+        font-family: Poppins;
+      }
+
+      .cls-1 {
+        fill: #c00a53;
+        font-weight: 300;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        font-weight: 500;
+      }
+    </style>
+  </defs>
+  <text id="Wear" class="cls-1" transform="translate(81.007 424.266) scale(3.134)">Wear</text>
+  <text id="i" class="cls-2" transform="translate(8.931 424.266) scale(3.134)">i</text>
+</svg>
